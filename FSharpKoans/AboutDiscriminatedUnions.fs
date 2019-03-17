@@ -44,14 +44,14 @@ module ``08: The Good Kind of Discrimination`` =
             | BSc (_, ComputerScience) | BSc (ComputerScience, _) -> "Good choice!"
             | BSc _ -> "!!SCIENCE!!"
             | BPharm -> "Meh, it's OK."
-            | FILL_ME_IN -> "Money, money, money."
-            | FILL_ME_IN -> "A thinker, eh?"
-        randomOpinion __ |> should equal "Good choice!"
-        randomOpinion __ |> should equal "!!SCIENCE!!"
+            | BCom (Management, _) | BCom (_, Management) -> "Money, money, money."
+            | BA (Linguistics,Philosophy) -> "A thinker, eh?"
+        randomOpinion (BSc(Mathematics, ComputerScience)) |> should equal "Good choice!"
+        randomOpinion (BSc (Mathematics, Economics)) |> should equal "!!SCIENCE!!"
         randomOpinion (BCom (Management, Economics)) |> should equal "Money, money, money."
         randomOpinion (BCom (Linguistics, Management)) |> should equal "Money, money, money."
         randomOpinion (BA (Linguistics, Philosophy)) |> should equal "A thinker, eh?"
-        randomOpinion __ |> should equal "Meh, it's OK."
+        randomOpinion BPharm |> should equal "Meh, it's OK."
 
     type EquipmentStatus =
     | Available
@@ -60,8 +60,8 @@ module ``08: The Good Kind of Discrimination`` =
 
     [<Test>]
     let ``03 A discriminated union case with associated data is a function`` () =
-        Broken |> should be ofType<FILL_ME_IN>
-        Rented |> should be ofType<FILL_ME_IN>
+        Broken |> should be ofType<int -> EquipmentStatus>
+        Rented |> should be ofType<string -> EquipmentStatus>
 
     type BinaryTree =
     | Empty
@@ -73,5 +73,9 @@ module ``08: The Good Kind of Discrimination`` =
             match x with
             | Empty -> 0
             | Node (_, a, b) -> 1 + max (depth a) (depth b)
-        let a = __ // <-- you may want to spread this over multiple lines and/or let-bindings ...!
+        let b =  
+            BinaryTree.Node("kfl",BinaryTree.Node("hyu",BinaryTree.Node("hj",BinaryTree.Empty,BinaryTree.Empty),BinaryTree.Empty),BinaryTree.Node("hj",BinaryTree.Empty,BinaryTree.Empty))
+        let y =  
+            BinaryTree.Node("kuiio",BinaryTree.Node("hyu",BinaryTree.Node("hj",BinaryTree.Empty,BinaryTree.Empty),BinaryTree.Empty),BinaryTree.Node("hj",BinaryTree.Empty,BinaryTree.Empty))
+        let a = Node("gib", b,y) // <-- you may want to spread this over multiple lines and/or let-bindings ...!
         depth a |> should equal 4
